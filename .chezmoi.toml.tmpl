@@ -1,6 +1,0 @@
-{{- $work := promptBoolOnce . "is_work" "Is this a work machine?" false -}}
-[data]
-    is_work = {{ $work }}
-{{- if $work }}
-    work_email = {{ promptStringOnce . "work_email" "Work git email" | quote }}
-{{- end }}
