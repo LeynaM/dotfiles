@@ -42,8 +42,7 @@ applied to disk, and `10`–`15` after, so the gap marks the phase boundary:
 9. `12` **commitlint** — installs pnpm + a Node runtime and enables the commit-msg hook in
    this repo.
 10. `13` **nvim providers** — installs the Python/Node providers Neovim needs.
-11. `14` **ttyper** — typing-practice tool setup.
-12. `15` **Homeserver enroll** — best-effort SSH key enrollment when on the home network;
+11. `15` **Homeserver enroll** — best-effort SSH key enrollment when on the home network;
     never fails the apply.
 
 Steps 1, 3, 4 and 6 are interactive (sudo password / Bitwarden unlock / Firefox sign-in /
@@ -81,10 +80,10 @@ chezmoi update             # git pull + apply
 
 ## Layout notes
 
-- **Managed**: git, zsh, ghostty, tmux, lazygit, neovim, ttyper, and the shared agent config. tmux
+- **Managed**: git, zsh, ghostty, tmux, lazygit, neovim, and the shared agent config. tmux
   plugins and nvim-lspconfig are vendored via `.chezmoiexternal.toml.tmpl`; nvim's other plugins are
   managed by Neovim's native `vim.pack`. The agent config links into `~/.claude` via chezmoi
-  `symlink_` entries (`CLAUDE.md`, `skills`). ttyper installs via brew on macOS / `cargo` on Linux.
+  `symlink_` entries (`CLAUDE.md`, `skills`).
 - **Obsidian**: the `obsidian-notes`, `obsidian-project` and `obsidian-plan` skills teach agents to
   write into the personal vault at `~/Documents/Notes` — its structure, frontmatter schema, and the
   rule that renames go through the Obsidian CLI so wikilinks survive. The vault itself is not
