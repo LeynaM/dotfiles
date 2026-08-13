@@ -45,10 +45,10 @@ in six months; the steps will be obvious from the diff.
 **No plan is approved without a subagent review pass**, in this order:
 
 1. Draft the plan.
-2. Francis reviews and comments. Iterate.
-3. **Only once he says he is happy**, spawn the review subagent.
+2. Leyna reviews and comments. Iterate.
+3. **Only once they say they are happy**, spawn the review subagent.
 
-Never run it earlier — findings on a churning plan go stale before he has finished commenting.
+Never run it earlier — findings on a churning plan go stale before they have finished commenting.
 
 Use a read-only subagent (`Plan` type), giving it every note being planned and the repo it targets.
 It checks the plan **against reality**, not for style:
@@ -63,7 +63,7 @@ Record findings in `## Notes` on whatever was reviewed, with what was done about
 those deliberately not acted on, and why**. Keep to findings that changed something or that someone
 would hit again; a full transcript helps nobody.
 
-Report to Francis. Material findings send the plan back to `draft` rather than through. Only once
+Report to Leyna. Material findings send the plan back to `draft` rather than through. Only once
 they are resolved does `status` become `todo`.
 
 Not ceremony: on the plan that built this vault, the gate caught a note type that matched no view, an

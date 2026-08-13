@@ -31,7 +31,7 @@ deployed paths, so this is an easy mistake to make.
 
 ## Notes & plans
 
-My personal Obsidian vault is `~/Documents/francis-notes/francis`.
+My personal Obsidian vault is `~/Documents/Notes`.
 
 - Reading or writing any note: use the `obsidian-notes` skill.
 - Finding or creating a project, workstream or task, or updating status: use the `obsidian-project`

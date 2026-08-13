@@ -3,9 +3,9 @@ name: obsidian-notes
 description: Use when reading or writing notes in my personal Obsidian vault — folder structure, frontmatter, note shape, naming, and Obsidian-flavoured Markdown. Read by the obsidian-project and obsidian-plan skills.
 ---
 
-Vault is `~/Documents/francis-notes/francis`. **If it does not exist, say so and stop** — do not
-create it. It is absent on work machines, and a fake vault produces notes that never sync. The
-shared vault (`~/Documents/shared-notes/shared-notes`) is out of scope.
+Vault is `~/Documents/Notes`. **If it does not exist, say so and stop** — do not create it. A fake
+vault produces notes that never sync. The shared vault (`~/Documents/shared-notes/shared-notes`)
+is out of scope.
 
 Write notes with the `caveman` skill: tight prose, no filler.
 
@@ -44,7 +44,7 @@ One `status` vocabulary for every type: `draft` → `todo` → `in-progress` →
 | `task` | `status`, `project` (link), `workstream` (link), `order` |
 | `note` | `project` (link), `source` |
 
-`remote` is the normalised git origin — `github.com/Francis-Gurr/dotfiles`, scheme and `.git`
+`remote` is the normalised git origin — `github.com/LeynaM/dotfiles`, scheme and `.git`
 stripped. **Never a filesystem path**: paths differ per machine and would fail exactly where
 portability matters. Omit for non-code projects.
 
@@ -136,12 +136,12 @@ operation goes through it; an external `mv` reads as delete-plus-create and sile
 link.
 
 ```
-obsidian vault="francis" rename file=<name> name=<new>
-obsidian vault="francis" move   file=<name> to=<path>
-obsidian vault="francis" delete file=<name>
+obsidian vault="Notes" rename file=<name> name=<new>
+obsidian vault="Notes" move   file=<name> to=<path>
+obsidian vault="Notes" delete file=<name>
 ```
 
-`vault="francis"` is **mandatory** — both vaults are open at once, and without it a rename can hit
+`vault="Notes"` is **mandatory** — both vaults are open at once, and without it a rename can hit
 the shared one. Never `mv` or `rm` a note. If the CLI is unavailable, say what needs renaming and
 leave it; a deferred rename beats silently broken links.
 
