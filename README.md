@@ -3,13 +3,15 @@
 My personal dotfiles, managed with [chezmoi](https://chezmoi.io). Cross-platform:
 **macOS, Fedora, Ubuntu/Debian**.
 
+Forked from [Francis-Gurr/dotfiles](https://github.com/Francis-Gurr/dotfiles); pull upstream
+changes with `git fetch upstream && git merge upstream/main`.
+
 ## Bootstrap a new machine
 
-One command installs chezmoi, clones this repo, prompts a couple of questions, and applies
-everything:
+One command installs chezmoi, clones this repo, and applies everything:
 
 ```sh
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply Francis-Gurr
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply LeynaM
 ```
 
 What it does, in order. Run scripts are numbered `00`–`05` before dotfiles/externals are
@@ -17,41 +19,39 @@ applied to disk, and `10`–`15` after, so the gap marks the phase boundary:
 
 **Before** (env + credentials, so GitHub auth has a ready browser and vault to work with):
 
-1. **Prompt** — `is_work?` (and, if yes, your work git email). Work machines skip Tailscale
-   entirely and never get `homeserver`/`homeserver-git`/`backuppi` in `~/.ssh/config` — they
-   shouldn't be able to reach or even know about the home network.
-2. `00` **Install packages** — per OS: `dnf` + the `scottames/ghostty` COPR on Fedora, `apt` on
+1. `00` **Install packages** — per OS: `dnf` + the `scottames/ghostty` COPR on Fedora, `apt` on
    Debian/Ubuntu, Homebrew (incl. the ghostty cask) on macOS. Also installs starship.
-3. `01` **System settings** — GNOME dark mode + US keyboard layout (Linux only, skipped if
+2. `01` **System settings** — GNOME dark mode + US keyboard layout (Linux only, skipped if
    `gsettings` isn't present).
-4. `02` **Bitwarden** — installs the Bitwarden desktop app (Flatpak on Linux, Homebrew cask on
+3. `02` **Bitwarden** — installs the Bitwarden desktop app (Flatpak on Linux, Homebrew cask on
    macOS) so vault-stored credentials are available before GitHub auth.
-5. `03` **Firefox Sync sign-in** — opens `about:preferences#sync` and waits for you to sign in
+4. `03` **Firefox Sync sign-in** — opens `about:preferences#sync` and waits for you to sign in
    (skipped if already signed in), so bookmarks/history/tabs/extensions are in place before
    GitHub auth opens a browser.
-6. `04` **Firefox UI prefs** — applies saved toolbar/sidebar layout and spellcheck dictionaries
+5. `04` **Firefox UI prefs** — applies saved toolbar/sidebar layout and spellcheck dictionaries
    to the profile from the previous step.
-7. `05` **GitHub auth** — `gh auth login` over SSH (generates/uploads a key), sets
+6. `05` **GitHub auth** — `gh auth login` over SSH (generates/uploads a key), sets
    `git_protocol ssh`, and repoints this repo's remote to SSH.
-8. `06` **Tailscale** — installs and logs in (opens a URL to approve the device) if not
-   already connected. `homeserver` and `backuppi` in `~/.ssh/config` resolve via Tailscale
-   MagicDNS, not LAN/mDNS, so this has to be working before you can reach either.
 
 **Apply** — dotfiles and externals (zsh plugins, FiraCode Nerd Font) are deployed to disk.
 
 **After** (now that dotfiles/externals exist on disk):
 
-9. `10` **Default shell** — switches your login shell to zsh.
-10. `11` **Font cache** — `fc-cache` on Linux, so the just-deployed Nerd Font renders.
-11. `12` **commitlint** — installs pnpm + a Node runtime and enables the commit-msg hook in
-    this repo.
-12. `13` **nvim providers** — installs the Python/Node providers Neovim needs.
-13. `14` **ttyper** — typing-practice tool setup.
-14. `15` **Homeserver enroll** — best-effort SSH key enrollment when on the home network;
+7. `10` **Default shell** — switches your login shell to zsh.
+8. `11` **Font cache** — `fc-cache` on Linux, so the just-deployed Nerd Font renders.
+9. `12` **commitlint** — installs pnpm + a Node runtime and enables the commit-msg hook in
+   this repo.
+10. `13` **nvim providers** — installs the Python/Node providers Neovim needs.
+11. `14` **ttyper** — typing-practice tool setup.
+12. `15` **Homeserver enroll** — best-effort SSH key enrollment when on the home network;
     never fails the apply.
 
-Steps 2, 4, 5, 7 and 8 are interactive (sudo password / Bitwarden unlock / Firefox sign-in /
-browser login / Tailscale device approval).
+Steps 1, 3, 4 and 6 are interactive (sudo password / Bitwarden unlock / Firefox sign-in /
+browser login).
+
+`homeserver`, `homeserver-git` and `backuppi` in `~/.ssh/config` resolve over the wired home
+LAN (`homeserver` → `homeserver.localdomain`), so no VPN or overlay network is needed. Off the
+home network they will not resolve.
 
 ## Day-to-day
 
@@ -76,9 +76,8 @@ chezmoi update             # git pull + apply
 
 ## git identity
 
-Personal (`francis.gurr@gmail.com`) is the default. Repos under `~/dev/work/` use the work email via
-an `includeIf` in `~/.gitconfig` that pulls in `~/.config/git/work.inc` (only materialized on
-machines answered as "work" during init). Keep personal projects in `~/dev/*`, work in `~/dev/work/*`.
+`leyna@gurrmail.com` for everything — there is no work-machine split. If one is ever needed, add an
+`includeIf` to `dot_gitconfig` pointing at a per-context include file.
 
 ## Layout notes
 
@@ -87,12 +86,12 @@ machines answered as "work" during init). Keep personal projects in `~/dev/*`, w
   managed by Neovim's native `vim.pack`. The agent config links into `~/.claude` via chezmoi
   `symlink_` entries (`CLAUDE.md`, `skills`). ttyper installs via brew on macOS / `cargo` on Linux.
 - **Obsidian**: the `obsidian-notes`, `obsidian-project` and `obsidian-plan` skills teach agents to
-  write into the personal vault at `~/Documents/francis-notes/francis` — its structure, frontmatter
-  schema, and the rule that renames go through the Obsidian CLI so wikilinks survive. The vault
-  itself is not managed here; it syncs via the Self-hosted LiveSync plugin.
+  write into the personal vault at `~/Documents/Notes` — its structure, frontmatter schema, and the
+  rule that renames go through the Obsidian CLI so wikilinks survive. The vault itself is not
+  managed here; it syncs via the Self-hosted LiveSync plugin.
 - **Parked**: the Wayland desktop stack (sway/waybar/greetd/fuzzel), wezterm, and Arch (`pacman`)
-  support live on the [`arch`](https://github.com/Francis-Gurr/dotfiles/tree/arch) branch, to be
-  ported back into `main` if a Linux desktop is adopted.
+  support live on upstream's [`arch`](https://github.com/Francis-Gurr/dotfiles/tree/arch) branch,
+  to be ported into `main` here if a Linux desktop is adopted.
 
 ## Commits
 
