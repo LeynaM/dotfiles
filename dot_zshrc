@@ -57,12 +57,29 @@ setopt INC_APPEND_HISTORY    # Update history file after each command
 # ----------------------------------------------------------------------------------------------------
 # OTHER
 
-# pnpm
+export PATH="$PATH:$HOME/.local/bin"
+
+# Toolchains. Each guarded, so a machine without one just skips it.
+[ -d "$HOME/.cargo/bin" ] && export PATH="$HOME/.cargo/bin:$PATH"
+
+export VOLTA_HOME="$HOME/.volta"
+[ -d "$VOLTA_HOME/bin" ] && export PATH="$VOLTA_HOME/bin:$PATH"
+
+FNM_PATH="$HOME/.local/share/fnm"
+if [ -d "$FNM_PATH" ]; then
+	export PATH="$FNM_PATH:$PATH"
+	eval "$(fnm env --shell zsh)"
+fi
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
+
+# pnpm. Must come after volta: volta ships a `pnpm` shim it cannot resolve unless a pnpm
+# is pinned to it, and that shim would otherwise shadow the standalone install the
+# commitlint setup script relies on.
 export PNPM_HOME="$HOME/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME/bin:"*) ;;
   *) export PATH="$PNPM_HOME/bin:$PATH" ;;
 esac
 # pnpm end
-
-export PATH="$PATH:$HOME/.local/bin"
