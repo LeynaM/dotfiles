@@ -53,11 +53,9 @@
 [url "git@github.com:"]
 	insteadOf = https://github.com/
 [user]
-	email = francis@gurrmail.com
-	name = Francis-Gurr
+	email = leyna@gurrmail.com
+	name = LeynaM
 [submodule]
 	recurse = true
 [status]
 	submoduleSummary = true
-[includeIf "gitdir:~/dev/work/"]
-	path = ~/.config/git/work.inc

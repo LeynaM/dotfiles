@@ -10,7 +10,7 @@ fi
 gh auth status >/dev/null 2>&1 || gh auth login --git-protocol ssh --hostname github.com
 gh config set -h github.com git_protocol ssh || true
 
-[ -f "$HOME/.ssh/id_ed25519" ] || ssh-keygen -t ed25519 -C "francis.gurr@gmail.com" -f "$HOME/.ssh/id_ed25519" -N ""
+[ -f "$HOME/.ssh/id_ed25519" ] || ssh-keygen -t ed25519 -C "leyna@gurrmail.com" -f "$HOME/.ssh/id_ed25519" -N ""
 gh ssh-key add "$HOME/.ssh/id_ed25519.pub" --title "$(uname -n)" 2>/dev/null || true
 
-git -C "{{ .chezmoi.sourceDir }}" remote set-url origin git@github.com:Francis-Gurr/dotfiles.git 2>/dev/null || true
+git -C "{{ .chezmoi.sourceDir }}" remote set-url origin git@github.com:LeynaM/dotfiles.git 2>/dev/null || true
